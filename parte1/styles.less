@@ -1,0 +1,63 @@
+// Variables
+@base-color: #ccc;
+@color-principal: #3498db;
+@color-secundario: #2ecc71;
+@fondo: #000000;
+@fuente: helvetica, sans-serif;
+
+body {
+    background: @base-color;
+}
+
+h2 {
+    color: @color-principal;
+    font-family: @fuente;
+}
+
+.box {
+    border: 2px solid @color-secundario;
+    padding: 10px;
+    margin: 10px;
+}
+
+.texto {
+    font-size: 16px;
+    font-family: @fuente;
+    color: darken(@color-principal, 10%);
+}
+
+//Anidación
+
+.menu {
+   ul {
+    width:100%;
+
+    li {
+        display:flex;
+        border:4px solid @fondo;
+        background: lighten(@fondo, 20%);
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    }
+   }
+    
+}
+
+// Mixins funciones
+
+.estilizar_caja {
+    border:1px solid rgb(0, 0, 0);
+    float: left;
+    background:rgb(177, 52, 52);
+    color:white;
+    padding: 50px;
+    margin: 10px;
+    width: 25%;
+}
+
+.box {
+    .estilizar_caja();
+}

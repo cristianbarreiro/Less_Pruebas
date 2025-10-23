@@ -1,0 +1,47 @@
+body {
+  background: #ccc;
+}
+h2 {
+  color: #3498db;
+  font-family: helvetica, sans-serif;
+}
+.box {
+  border: 2px solid #2ecc71;
+  padding: 10px;
+  margin: 10px;
+}
+.texto {
+  font-size: 16px;
+  font-family: helvetica, sans-serif;
+  color: #217dbb;
+}
+.menu ul {
+  width: 100%;
+}
+.menu ul li {
+  display: flex;
+  border: 4px solid #000000;
+  background: #333333;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: black;
+}
+.estilizar_caja {
+  border: 1px solid #000000;
+  float: left;
+  background: #b13434;
+  color: white;
+  padding: 50px;
+  margin: 10px;
+  width: 25%;
+}
+.box {
+  border: 1px solid #000000;
+  float: left;
+  background: #b13434;
+  color: white;
+  padding: 50px;
+  margin: 10px;
+  width: 25%;
+}
