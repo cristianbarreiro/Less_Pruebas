@@ -1,0 +1,670 @@
+// ====================================
+// TUTORIAL LESS CSS - DISEÑO RESPONSIVE
+// ====================================
+
+// ==================
+// 1. VARIABLES LESS
+// ==================
+// Las variables nos permiten definir valores una vez y reutilizarlos
+
+// Colores principales
+@color-primario: #3498db;
+@color-secundario: #2c3e50;
+@color-acento: #e74c3c;
+@color-exito: #27ae60;
+@color-advertencia: #f39c12;
+
+// Colores de texto
+@color-texto-principal: #2c3e50;
+@color-texto-secundario: #7f8c8d;
+@color-texto-claro: #ffffff;
+
+// Colores de fondo
+@color-fondo: #ffffff;
+@color-fondo-alt: #f8f9fa;
+@color-fondo-oscuro: #2c3e50;
+
+// Fuentes
+@fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+@fuente-secundaria: Georgia, serif;
+@fuente-codigo: 'Courier New', monospace;
+
+// Tamaños de fuente
+@tamano-fuente-base: 16px;
+@tamano-fuente-pequeno: 14px;
+@tamano-fuente-grande: 18px;
+@tamano-fuente-h1: 2.5rem;
+@tamano-fuente-h2: 2rem;
+@tamano-fuente-h3: 1.5rem;
+
+// Espaciado
+@espaciado-xs: 0.25rem;
+@espaciado-sm: 0.5rem;
+@espaciado-md: 1rem;
+@espaciado-lg: 1.5rem;
+@espaciado-xl: 2rem;
+@espaciado-xxl: 3rem;
+
+// Breakpoints para responsive design
+@breakpoint-xs: 480px;
+@breakpoint-sm: 768px;
+@breakpoint-md: 992px;
+@breakpoint-lg: 1200px;
+@breakpoint-xl: 1400px;
+
+// Contenedor
+@contenedor-max-width: 1200px;
+
+// Sombras
+@sombra-suave: 0 2px 4px rgba(0, 0, 0, 0.1);
+@sombra-media: 0 4px 8px rgba(0, 0, 0, 0.15);
+@sombra-fuerte: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+// Transiciones
+@transicion-rapida: 0.3s ease;
+@transicion-media: 0.5s ease;
+
+// Border radius
+@border-radius-pequeno: 4px;
+@border-radius-medio: 8px;
+@border-radius-grande: 12px;
+
+// ==================
+// 2. MIXINS LESS
+// ==================
+// Los mixins nos permiten reutilizar grupos de propiedades CSS
+
+// Mixin para centrar contenido
+.centrar-flex() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Mixin para transiciones suaves
+.transicion(@propiedad: all, @duracion: @transicion-rapida) {
+    transition: @propiedad @duracion;
+}
+
+// Mixin para botones
+.boton-base(@color-fondo: @color-primario, @color-texto: @color-texto-claro) {
+    display: inline-block;
+    padding: @espaciado-sm @espaciado-lg;
+    background-color: @color-fondo;
+    color: @color-texto;
+    text-decoration: none;
+    border: none;
+    border-radius: @border-radius-pequeno;
+    cursor: pointer;
+    font-family: @fuente-principal;
+    font-size: @tamano-fuente-base;
+    font-weight: 600;
+    text-align: center;
+    .transicion();
+    
+    &:hover {
+        background-color: darken(@color-fondo, 10%);
+        transform: translateY(-2px);
+        box-shadow: @sombra-media;
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// Mixin para tarjetas
+.tarjeta() {
+    background-color: @color-fondo;
+    border-radius: @border-radius-medio;
+    box-shadow: @sombra-suave;
+    padding: @espaciado-lg;
+    .transicion(box-shadow);
+    
+    &:hover {
+        box-shadow: @sombra-media;
+    }
+}
+
+// Mixin para gradientes
+.gradiente(@color1: @color-primario, @color2: darken(@color-primario, 20%)) {
+    background: linear-gradient(135deg, @color1 0%, @color2 100%);
+}
+
+// Mixin para media queries responsive
+.responsive(@breakpoint) when (@breakpoint = xs) {
+    @media (max-width: @breakpoint-xs) { & { @content(); } }
+}
+.responsive(@breakpoint) when (@breakpoint = sm) {
+    @media (max-width: @breakpoint-sm) { & { @content(); } }
+}
+.responsive(@breakpoint) when (@breakpoint = md) {
+    @media (max-width: @breakpoint-md) { & { @content(); } }
+}
+.responsive(@breakpoint) when (@breakpoint = lg) {
+    @media (max-width: @breakpoint-lg) { & { @content(); } }
+}
+
+// Mixin para contenedor responsivo
+.contenedor-responsivo() {
+    width: 100%;
+    max-width: @contenedor-max-width;
+    margin: 0 auto;
+    padding: 0 @espaciado-lg;
+    
+    .responsive(sm) {
+        padding: 0 @espaciado-md;
+    }
+}
+
+// ==================
+// 3. ESTILOS BASE
+// ==================
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: @tamano-fuente-base;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: @fuente-principal;
+    line-height: 1.6;
+    color: @color-texto-principal;
+    background-color: @color-fondo;
+}
+
+.container {
+    .contenedor-responsivo();
+}
+
+// ==================
+// 4. NAVEGACIÓN
+// ==================
+// Ejemplo de anidación y uso de variables/mixins
+
+.navbar {
+    background-color: @color-fondo;
+    box-shadow: @sombra-suave;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    .transicion();
+
+    .nav-container {
+        .contenedor-responsivo();
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: @espaciado-md;
+        padding-bottom: @espaciado-md;
+    }
+
+    .nav-brand {
+        h2 {
+            color: @color-primario;
+            font-size: @tamano-fuente-h3;
+            font-weight: 700;
+        }
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .nav-item {
+            margin-left: @espaciado-lg;
+
+            .nav-link {
+                color: @color-texto-principal;
+                text-decoration: none;
+                font-weight: 500;
+                padding: @espaciado-sm @espaciado-md;
+                border-radius: @border-radius-pequeno;
+                .transicion();
+
+                &:hover {
+                    background-color: @color-primario;
+                    color: @color-texto-claro;
+                }
+            }
+        }
+
+        // Navegación móvil responsiva
+        .responsive(sm) {
+            position: fixed;
+            top: 70px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background-color: @color-fondo;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: @espaciado-xl;
+            .transicion(left);
+            box-shadow: @sombra-media;
+
+            &.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: @espaciado-md 0;
+                width: 100%;
+                text-align: center;
+
+                .nav-link {
+                    display: block;
+                    width: 100%;
+                    padding: @espaciado-lg;
+                    font-size: @tamano-fuente-grande;
+                }
+            }
+        }
+    }
+
+    .nav-toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: @espaciado-sm;
+
+        span {
+            width: 25px;
+            height: 3px;
+            background-color: @color-texto-principal;
+            margin: 3px 0;
+            .transicion();
+        }
+
+        &.active {
+            span:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            span:nth-child(2) {
+                opacity: 0;
+            }
+            span:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        }
+
+        .responsive(sm) {
+            display: flex;
+        }
+    }
+}
+
+// ==================
+// 5. HERO SECTION
+// ==================
+
+.hero {
+    .gradiente(@color-primario, darken(@color-primario, 30%));
+    color: @color-texto-claro;
+    padding: calc(70px + @espaciado-xxl) 0 @espaciado-xxl 0;
+    min-height: 100vh;
+    .centrar-flex();
+    text-align: center;
+
+    .hero-title {
+        font-size: @tamano-fuente-h1;
+        font-weight: 700;
+        margin-bottom: @espaciado-lg;
+        
+        .responsive(sm) {
+            font-size: 2rem;
+        }
+    }
+
+    .hero-subtitle {
+        font-size: @tamano-fuente-grande;
+        margin-bottom: @espaciado-xl;
+        opacity: 0.9;
+        max-width: 600px;
+        
+        .responsive(sm) {
+            font-size: @tamano-fuente-base;
+        }
+    }
+
+    .btn {
+        .boton-base(@color-acento, @color-texto-claro);
+        font-size: @tamano-fuente-grande;
+        padding: @espaciado-md @espaciado-xl;
+    }
+}
+
+// ==================
+// 6. SECCIONES
+// ==================
+
+.section {
+    padding: @espaciado-xxl 0;
+
+    &.section-alt {
+        background-color: @color-fondo-alt;
+    }
+
+    .section-title {
+        font-size: @tamano-fuente-h2;
+        text-align: center;
+        margin-bottom: @espaciado-xl;
+        color: @color-texto-principal;
+        position: relative;
+
+        &:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: @color-primario;
+            margin: @espaciado-lg auto 0;
+            border-radius: 2px;
+        }
+    }
+}
+
+// ==================
+// 7. GRID SYSTEM
+// ==================
+
+.grid {
+    display: grid;
+    gap: @espaciado-lg;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    &.grid-3 {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .responsive(sm) {
+        grid-template-columns: 1fr;
+        gap: @espaciado-md;
+    }
+}
+
+// ==================
+// 8. COMPONENTES
+// ==================
+
+// Tarjetas
+.card {
+    .tarjeta();
+
+    h3 {
+        color: @color-texto-principal;
+        margin-bottom: @espaciado-md;
+        font-size: @tamano-fuente-h3;
+    }
+
+    p {
+        color: @color-texto-secundario;
+        margin-bottom: @espaciado-md;
+        line-height: 1.7;
+    }
+
+    ul {
+        padding-left: @espaciado-lg;
+        
+        li {
+            margin-bottom: @espaciado-sm;
+            color: @color-texto-secundario;
+        }
+    }
+
+    &.card-large {
+        grid-column: 1 / -1;
+    }
+}
+
+// Botones
+.btn {
+    .boton-base();
+
+    &.btn-primary {
+        .boton-base(@color-primario, @color-texto-claro);
+    }
+
+    &.btn-secondary {
+        .boton-base(@color-secundario, @color-texto-claro);
+    }
+
+    &.btn-outline {
+        background-color: transparent;
+        color: @color-primario;
+        border: 2px solid @color-primario;
+
+        &:hover {
+            background-color: @color-primario;
+            color: @color-texto-claro;
+        }
+    }
+}
+
+// Código
+.code-block {
+    display: block;
+    background-color: @color-fondo-oscuro;
+    color: @color-texto-claro;
+    padding: @espaciado-md;
+    border-radius: @border-radius-pequeno;
+    font-family: @fuente-codigo;
+    font-size: @tamano-fuente-pequeno;
+    margin-top: @espaciado-md;
+    overflow-x: auto;
+}
+
+// Lista de características
+.features-list {
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: @espaciado-lg;
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-right: @espaciado-lg;
+            flex-shrink: 0;
+        }
+
+        .feature-content {
+            h4 {
+                color: @color-texto-principal;
+                margin-bottom: @espaciado-sm;
+                font-size: 1.1rem;
+            }
+
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+// Elementos de demostración
+.demo-box {
+    width: 100px;
+    height: 100px;
+    background-color: @color-primario;
+    border-radius: @border-radius-medio;
+    margin: @espaciado-lg auto;
+    box-shadow: @sombra-media;
+    .transicion();
+
+    &:hover {
+        transform: rotate(10deg) scale(1.1);
+        box-shadow: @sombra-fuerte;
+    }
+}
+
+.demo-gradient {
+    width: 100%;
+    height: 100px;
+    .gradiente(@color-primario, @color-acento);
+    border-radius: @border-radius-medio;
+    margin-top: @espaciado-lg;
+}
+
+// Grid responsivo demo
+.responsive-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: @espaciado-md;
+    margin-top: @espaciado-xl;
+
+    .grid-item {
+        .centrar-flex();
+        height: 80px;
+        background-color: @color-primario;
+        color: @color-texto-claro;
+        font-size: @tamano-fuente-h3;
+        font-weight: 600;
+        border-radius: @border-radius-pequeno;
+        .transicion();
+
+        &:hover {
+            background-color: @color-acento;
+            transform: translateY(-5px);
+        }
+
+        &:nth-child(even) {
+            background-color: @color-secundario;
+
+            &:hover {
+                background-color: @color-advertencia;
+            }
+        }
+    }
+}
+
+// ==================
+// 9. FOOTER
+// ==================
+
+.footer {
+    background-color: @color-fondo-oscuro;
+    color: @color-texto-claro;
+    padding: @espaciado-xxl 0 @espaciado-lg 0;
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: @espaciado-xl;
+        margin-bottom: @espaciado-xl;
+
+        .footer-section {
+            h3 {
+                color: @color-primario;
+                margin-bottom: @espaciado-lg;
+                font-size: @tamano-fuente-h3;
+            }
+
+            p {
+                color: lighten(@color-texto-secundario, 20%);
+                margin-bottom: @espaciado-sm;
+                line-height: 1.7;
+            }
+
+            ul {
+                list-style: none;
+
+                li {
+                    margin-bottom: @espaciado-sm;
+
+                    a {
+                        color: lighten(@color-texto-secundario, 20%);
+                        text-decoration: none;
+                        .transicion();
+
+                        &:hover {
+                            color: @color-primario;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        border-top: 1px solid lighten(@color-fondo-oscuro, 20%);
+        padding-top: @espaciado-lg;
+        text-align: center;
+
+        p {
+            color: lighten(@color-texto-secundario, 10%);
+            margin: 0;
+        }
+    }
+}
+
+// ==================
+// 10. UTILIDADES RESPONSIVE
+// ==================
+
+// Clases de utilidad para diferentes breakpoints
+.mostrar-movil {
+    display: none;
+    
+    .responsive(sm) {
+        display: block;
+    }
+}
+
+.ocultar-movil {
+    display: block;
+    
+    .responsive(sm) {
+        display: none;
+    }
+}
+
+// Espaciado responsivo
+.espaciado-responsivo {
+    padding: @espaciado-xl @espaciado-lg;
+    
+    .responsive(sm) {
+        padding: @espaciado-lg @espaciado-md;
+    }
+}
+
+// ==================
+// 11. ANIMACIONES Y EFECTOS
+// ==================
+
+// Animación de fade in
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+// Efecto de hover para tarjetas interactivas
+.card-interactiva {
+    .tarjeta();
+    cursor: pointer;
+    .transicion(transform, box-shadow);
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: @sombra-fuerte;
+    }
+}
